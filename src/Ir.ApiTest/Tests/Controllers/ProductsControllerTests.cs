@@ -23,7 +23,7 @@ namespace Ir.ApiTest.Tests.Controllers
     {
       // Arrange
       int page = 1;
-      int pageSize = 10; // Adjust according to your needs
+      int pageSize = 5;
       var mockProducts = new List<ProductDto>
             {
                 new ProductDto { Id = "1", Name = "Product 1" },
