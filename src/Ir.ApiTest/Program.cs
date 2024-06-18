@@ -1,3 +1,5 @@
+using Ir.ApiTest.Interfaces;
+using Ir.ApiTest.Services;
 using Ir.IntegrationTest.Entity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -14,6 +16,9 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<Context>(options => options.UseInMemoryDatabase(databaseName: "Database"));
+
+// Services dependency injection
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
