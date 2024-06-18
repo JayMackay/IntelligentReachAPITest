@@ -19,12 +19,18 @@ namespace Ir.FakeMarketplace.Controllers
       _productService = productService ?? throw new ArgumentNullException(nameof(productService));
     }
 
+    // Added optional pagination ?page=1&pageSize=10
     [HttpGet]
-    public async Task<IActionResult> GetProducts()
+    public async Task<IActionResult> GetProducts([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {
       try
       {
-        var products = await _productService.GetProductsAsync();
+        if(page <= 0 || pageSize <= 0)
+        {
+          return BadRequest(new { message = "Error page and page size must be greater than zero" });
+        }
+
+        var products = await _productService.GetProductsAsync(page, pageSize);
         return Ok(products);
       }
       catch(Exception ex)

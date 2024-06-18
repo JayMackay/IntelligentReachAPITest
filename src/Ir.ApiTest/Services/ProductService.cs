@@ -70,21 +70,23 @@ namespace Ir.ApiTest.Services
       };
     }
 
-    public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+    public async Task<IEnumerable<ProductDto>> GetProductsAsync(int page, int pageSize)
     {
-      var products = await _context.Products.ToListAsync();
-
-      return products.Select(p => new ProductDto
-      {
-        Id = p.Id,
-        Size = p.Size,
-        Colour = p.Colour,
-        Name = p.Name,
-        Price = p.Price,
-        Created = p.Created,
-        LastUpdated = p.LastUpdated,
-        Hash = p.Hash
-      });
+      return await _context.Products
+          .Skip((page - 1) * pageSize) // Skips the records of the previous pages
+          .Take(pageSize) // Displays the records only for the current page
+          .Select(product => new ProductDto
+          {
+            Id = product.Id,
+            Name = product.Name,
+            Size = product.Size,
+            Colour = product.Colour,
+            Price = product.Price,
+            Created = product.Created,
+            LastUpdated = product.LastUpdated,
+            Hash = product.Hash
+          })
+          .ToListAsync();
     }
 
     public async Task<ProductDto> UpdateProductAsync(string id, JsonPatchDocument<ProductDto> productUpdateParameters)
