@@ -2,7 +2,7 @@ using System;
 
 namespace Ir.IntegrationTest.Contracts
 {
-  public class Product
+  public class ProductDto
   {
     public string Id { get; set; }
     public string Size { get; set; }
